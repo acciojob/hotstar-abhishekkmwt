@@ -33,14 +33,16 @@ public class WebSeriesService {
         webSeries.setSubscriptionType(webSeriesEntryDto.getSubscriptionType());
 
         ProductionHouse productionHouse=productionHouseRepository.findById(webSeriesEntryDto.getProductionHouseId()).get();
-        if(productionHouse!=null){
-            double ratings =productionHouse.getRatings();
-            double newTotalRating= (ratings + webSeriesEntryDto.getRating())/2;
-            productionHouse.setRatings(newTotalRating);
-            productionHouse.getWebSeriesList().add(webSeries);
+            double rate =productionHouse.getRatings();
+            rate=rate+webSeries.getRating();
+            if(productionHouse.getWebSeriesList().size()==1) productionHouse.setRatings(rate);
+            else productionHouse.setRatings(rate/2.0);
             webSeries.setProductionHouse(productionHouse);
+            productionHouse.getWebSeriesList().add(webSeries);
+
+            webSeriesRepository.save(webSeries);
             productionHouseRepository.save(productionHouse);
-        }
+
         return webSeries.getId();
     }
 
