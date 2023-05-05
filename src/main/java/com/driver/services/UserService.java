@@ -37,7 +37,7 @@ public class UserService {
         User user =userRepository.findById(userId).get();
         Integer count=0;
         if(user!=null){
-            int userAge = user.getAge();
+            Integer userAge = user.getAge();
             SubscriptionType subscriptionType =user.getSubscription().getSubscriptionType();
             List<WebSeries> webSeries = webSeriesRepository.findAll();
             if(webSeries!=null){
